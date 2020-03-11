@@ -66,10 +66,16 @@ function reset() {
 }
 
 function showResult() {
-  if (resultNumber) {
-    result.value = resultNumber;
-    operation += " = " + String(resultNumber);
-    resultLog.value += operation + "\n";
+  if (resultNumber || resultNumber === 0) {
+    if (operator) {
+      result.value = resultNumber;
+      operation += " = " + String(resultNumber);
+    } else {
+      result.value = rightNumber;
+      operation += " = " + String(rightNumber);
+    }
+
+    resultLog.value += operation.trim() + "\n";
     operation = "";
     operator = "";
     clearInput();
@@ -77,19 +83,21 @@ function showResult() {
 }
 
 function operatorBtnClick(op) {
-  if (operator) {
-    rightNumber = Number(input.value);
-    addToOperation(operator);
-    equal();
-    operator = op;
-    leftNumber = resultNumber;
-  } else {
-    leftNumber = Number(input.value);
-    operation += leftNumber;
-    operator = op;
-  }
+  if (Number(input.value) || input.value === "0") {
+    if (operator) {
+      rightNumber = Number(input.value);
+      addToOperation(operator);
+      equal();
+      operator = op;
+      leftNumber = resultNumber;
+    } else {
+      leftNumber = Number(input.value);
+      operation += leftNumber;
+      operator = op;
+    }
 
-  clearInput();
+    clearInput();
+  }
 }
 
 function add() {
